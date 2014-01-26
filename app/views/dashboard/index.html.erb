@@ -1,0 +1,15 @@
+
+<% for post in @posts %>
+
+	<div class="tile left">
+		<%= link_to (image_tag post.image.url(:medium)), post_path(post) %>
+		<h3><%= link_to post.title, post_path(post) %>  </h3>
+	</div>
+
+<% end %>
+
+<% for user in @users %>
+
+<%= link_to user.first_name, edit_user_registration_path %> 
+
+<% end %>

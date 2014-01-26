@@ -1,0 +1,53 @@
+
+
+
+<%= link_to 'Back to Home', posts_path %> <br>
+
+
+<% if current_user.try(:admin?) %>
+
+<%= link_to "edit", edit_post_path(@post) %> | <%= link_to "delete", @post, method: :delete, confirm: 'Are you sure?' %>
+
+<% end %>
+
+
+<h1><%= @post.title %></h1>
+
+    <% unless @post.image_file_name.blank? %>
+
+    <%= image_tag @post.image.url(:large) %>
+
+<% end %>
+
+
+
+<div class= "column_1">
+
+<p><%= @post.text %></p>
+
+<div class= "column_2">
+<%= @post.format %>
+<%= @post.length %>
+
+<%= @post.price %>
+
+<%=raw @post.video %>
+
+<%= form_tag({controller: "charges", action: "create"}) do %>
+  <article>
+    <label class="amount">
+      <span>Amount: $<%= @post.price %></span>
+    </label>
+  </article>
+
+  <%= hidden_field_tag :postid, (@post.id) %>
+
+  <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+          data-image="<%= @post.image.url(:medium) %>"
+          data-name="Five Loaves"
+          data-description="<%= @post.title %> ($<%= @post.price %>)">
+
+  </script>
+<% end %>
