@@ -18,7 +18,10 @@ class PostsController < ApplicationController
 	end
 
 	def create
-		Post.create params[:post]
+		
+		post = current_user.posts.build(params[:post])
+
+		post.save
 
  		redirect_to :posts
 
@@ -35,7 +38,9 @@ class PostsController < ApplicationController
 
 	def update
 
+
 		post = Post.find params[:id]
+
 		if post.update_attributes params[:post]
 		redirect_to posts_path
 		else

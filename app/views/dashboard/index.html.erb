@@ -1,5 +1,10 @@
 
-<% for post in @posts %>
+
+<%= link_to 'home', root_path %>
+
+<h1>My Posts</h1>
+
+<% for post in @myposts %>
 
 	<div class="tile left">
 		<%= link_to (image_tag post.image.url(:medium)), post_path(post) %>
@@ -8,8 +13,13 @@
 
 <% end %>
 
-<% for user in @users %>
 
-<%= link_to user.first_name, edit_user_registration_path %> 
+<% if current_user.try(:admin?) %>
+
+	<% for user in @users %>
+
+	<%= link_to user.first_name, edit_user_registration_path %> 
+
+	<% end %>
 
 <% end %>
